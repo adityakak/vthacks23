@@ -16,7 +16,15 @@ const overallPie: React.FC = () => {
   return (
     <div>
       <h2>Pie Chart 1</h2>
-      <Doughnut data={data}/>
+      <Doughnut data={data}
+      options={{
+        plugins: {
+          legend: {
+            display: false, // Hide the legend
+          },
+        },
+      }}
+      />
     </div>
   );
 };
