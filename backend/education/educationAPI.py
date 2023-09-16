@@ -4,6 +4,8 @@ import googlemaps
 from pathlib import Path
 import os
 from collections import defaultdict
+import pickle
+
 class School():
     def __init__(self, schoolName, schoolRating, schoolState):
         self.schoolName = schoolName
@@ -48,8 +50,9 @@ class EducationAPI():
             authKey = authKey.strip()
             return authKey
 
-    def getPlaceFromLatLong(self, lat , long):
-        reverse_geocode_result = self.gmaps.reverse_geocode((lat, long))
+    # def getPlaceFromLatLong(self, lat, long):
+    def getPlaceFromLatLong(self):
+        reverse_geocode_result = self.gmaps.reverse_geocode((self.home.latitude, self.home.longitude))
         placeID = reverse_geocode_result[0]['place_id']
         return placeID
     
@@ -61,19 +64,21 @@ class EducationAPI():
             result.append(review['text'])
         return result # List where first value is overall rating and the rest are reviews
     
-    def findLibrariesNearLocation(self, loc):
-        libraries = self.gmaps.places_nearby(location=loc, type="library", radius=10000)
+    #def findLibrariesNearLocation(self, loc):
+    def findLibrariesNearLocation(self):
+        libraries = self.gmaps.places_nearby(location=(self.home.latitude, self.home.longitude), type="library", radius=10000)
         
         result = []
-        for libraryIndex, library in libraries['results']:
+        for library in libraries['results']:
             result.append((library['name'], library['place_id']))
         return result
     
-    def findChildCareNearLocation(self, loc):
-        childCare = self.gmaps.places_nearby(location=loc, keyword="child care, daycare", radius=10000)
+    #def findChildCareNearLocation(self, loc):
+    def findChildCareNearLocation(self):
+        childCare = self.gmaps.places_nearby(location=(self.home.latitude, self.home.longitude), keyword="child care, daycare", radius=10000)
         
         result = []
-        for childCareIndex, childCare in childCare['results']:
+        for childCare in childCare['results']:
             result.append((childCare['name'], childCare['place_id']))
         return result
 
@@ -81,18 +86,35 @@ if __name__ == "__main__":
     dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchoolsClean.csv"))
     df = pd.read_csv(dataPath)
 
-    schools = defaultdict(list)
-    libraries = defaultdict(list)
-    houseData = defaultdict(dict)
+    schoolsToHome = defaultdict(list)
+    librariesToHome = defaultdict(list)
+    childCareToHome = defaultdict(list)
+    #houseData = defaultdict(dict)
 
     eduAPI = EducationAPI(None)
-    # for index, row in df.iterrows():
-    #     h = Home(row)
-    #     eduAPI.setHome(h)
-    #     placeID = eduAPI.getPlaceFromLatLong(h.latitude, h.longitude)
-    #     for school in h.schools:
-    #         schools[school].append(placeID)
-    result = eduAPI.findChildCareNearLocation((38.904960, -77.390170))
+    for index, row in df.iterrows():
+        h = Home(row)
+        eduAPI.setHome(h)
+        print(f"Processing {h.street} at lat {h.latitude} and long {h.longitude}")
+        # placeID = eduAPI.getPlaceFromLatLong(h.latitude, h.longitude)
+        placeID = eduAPI.getPlaceFromLatLong()
+        for school in h.schools:
+            schoolsToHome[school].append(placeID)
+        for library in eduAPI.findLibrariesNearLocation():
+            librariesToHome[library].append(placeID)
+        for care in eduAPI.findChildCareNearLocation():
+            childCareToHome[care].append(placeID)
+        print(f"Finished {index} of {len(df)}")
+        print()
+    with open('schoolsToHome', 'wb') as file:
+        pickle.dump(schoolsToHome, file)
+    with open('librariesToHome', 'wb') as file:
+        pickle.dump(librariesToHome, file)
+    with open('childCareToHome', 'wb') as file:
+        pickle.dump(childCareToHome, file)
+    print()
+    
+    # result = eduAPI.findChildCareNearLocation((38.904960, -77.390170))
     #placedID = eduAPI.getPlaceFromLatLong(38.984830, -77.377110)
     #print()
         
