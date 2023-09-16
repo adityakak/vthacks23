@@ -15,7 +15,7 @@ function Results() {
       <div id = "dashboard">
         <div id = "overallPieDiv"style = {chartStyles}>
           <Overall />
-          <h1 className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">Your Overall Rating</h1>
+          <span className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">Your Overall Rating</span>
         </div>
       </div>
     </div>
