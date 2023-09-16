@@ -17,6 +17,9 @@ export default {
               'union-gold': '#b38708',
               'union-blue': '#002D55',
           },
+          backgroundImage: {
+            'home-bg': "url('./assets/YIWImage2022.jpeg')",
+        },
           fontFamily: {
               dmsans: ['DM Sans', 'sans-serif'],
               montserrat: ['Montserrat', 'sans-serif'],

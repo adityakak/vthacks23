@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
+import { states } from "../shared/states";
 
 function Form() {
     const [address, setAddress] = useState<string>();
@@ -18,6 +19,26 @@ function Form() {
     
   }
   return (
+
+    <>
+    <div className="relative pb-24 bg-home-bg bg-cover bg-no-repeat h-[41rem] z-[-1] ">
+                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40" />
+                {isAboveMediumScreens && (
+                    <div className="relative pt-56 w-[40rem] ml-32 mx-auto text-white ">
+                        <div className="relative text-white bg-wise-light-blue p-4 rounded-2xl ">
+                            <div className="absolute top-1 left-1 bg-wise-blue h-full w-full z-[-2] rounded-2xl" />
+                            <div className="absolute top-2 left-2 bg-wise-red h-full w-full z-[-3] rounded-2xl" />
+                            <div className="absolute top-3 left-3 bg-white h-full w-full z-[-4] rounded-2xl" />
+                            <div className="text-8xl font-bold">
+                                Year in Wise
+                            </div>
+                            <div className="mt-12 text-2xl font-normal">
+                                This is Where it all Begins
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
     <form className="flex flex-col justify-center items-center h-full"
       onSubmit={handleSendHome}
     >  
@@ -72,20 +93,28 @@ function Form() {
         }
           </div>
           <div>
-          <input className="mb-2 w-full rounded-lg bg-blue-400 px-5 py-3 placeholder-white text-white mx-auto"
+          <select className="mb-2 w-full rounded-lg bg-blue-400 px-5 py-3 placeholder-white text-white mx-auto"
             value={state}
-            type="text"
             placeholder="State"
             {...register('state', {
               required: true,
-              maxLength: 100,
           })}
             onChange={(
-              e: React.ChangeEvent<HTMLInputElement>
+              e: React.ChangeEvent<HTMLSelectElement>
           ) => {
               setState(e.target.value);
           }}
-        />
+        >
+           <option value=""> State </option>
+                            {states?.map((state) => (
+                                <option
+                                    value={state}
+                                    key={state}
+                                >
+                                    {state}
+                                </option>
+                            ))}
+          </select>
        {errors.state && (
                             <p className=" text-primary-500">
                                 {errors.state.type === 'required' &&
@@ -133,6 +162,7 @@ function Form() {
                     </button>
       
     </form>
+    </>
   )
 }
 
