@@ -14,5 +14,5 @@ def load_data(dataPath : Path):
     df.to_csv(newFilePath, index=False)
 
 if __name__ == "__main__":
-    dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHouses.csv"))
+    dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchools.csv"))
     load_data(dataPath)    
