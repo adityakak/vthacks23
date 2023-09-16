@@ -1,11 +1,10 @@
+import Form from "./components/Form";
+
 function App() {
-  
 
   return (
     <>
-      <div className="text-red-800">
-        
-      </div>
+    <Form/>
     </>
   )
 }
