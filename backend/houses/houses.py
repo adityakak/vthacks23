@@ -7,7 +7,8 @@ def load_data(dataPath : Path):
 
     dropWord = "maps.googleapis.com"
     df = df[~df['photos/0'].str.contains(dropWord)]
-
+    # df = df.drop(df[df[['abbreviatedAddress', 'latitude', 'longitude']].eq('').any(axis=1)].index)
+    df = df.dropna(subset=['latitude', 'longitude'])
 
     newFileName = dataPath.stem + "Clean" + dataPath.suffix
     newFilePath = dataPath.parent / newFileName
