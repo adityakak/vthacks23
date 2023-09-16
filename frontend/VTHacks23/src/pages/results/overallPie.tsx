@@ -15,7 +15,6 @@ const overallPie: React.FC = () => {
 
   return (
     <div>
-      <h2>Pie Chart 1</h2>
       <Doughnut data={data}
       options={{
         plugins: {

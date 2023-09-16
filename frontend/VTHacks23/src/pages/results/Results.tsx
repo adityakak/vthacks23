@@ -1,26 +1,30 @@
 import Navbar from "../../components/Navbar";
-import Overall from "./overallPie"
+import Overall from "./overallPie";
 
 const chartStyles = {
   // Apply your styles here, for example:
   width: '300px',
   height: '300px',
-  margin: '0 auto', // Center the chart horizontally
 };
 
 function Results() {
   return (
     <div>
       <Navbar />
-      <div id = "dashboard">
-        <div id = "overallPieDiv"style = {chartStyles}>
+      <div id="dashboard">
+        <div
+          id="overallPieDiv"
+          className="flex justify-left p-[30px] h-[500px] relative"
+        >
           <Overall />
-          <span className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">Your Overall Rating</span>
+          <div className="mt-10 relative group">
+            <span className="text-white text-4xl italic">Your Overall Rating</span>
+            <span className="absolute left-0 w-full h-1 bg-orange-400 transition-all duration-500 opacity-0 group-hover:opacity-100"></span>
+          </div>
         </div>
       </div>
     </div>
-    
-  )
+  );
 }
 
-export default Results
+export default Results;
