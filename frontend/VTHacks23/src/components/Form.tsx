@@ -21,7 +21,7 @@ function Form() {
         <>
             <div className="group">
                 <div className="flex justify-center my-10">
-                    <span className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic">
+                    <span className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">
                         Enter your address below
                     </span>
                 </div>
@@ -30,7 +30,7 @@ function Form() {
             </div>
 
             <form
-                className="relative flex flex-col justify-center items-center h-full py-24"
+                className="relative flex flex-col justify-center items-center h-full pb-24 pt-12"
                 onSubmit={handleSendHome}
             >
                 <input
