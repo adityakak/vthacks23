@@ -18,7 +18,7 @@ export default {
               'union-blue': '#002D55',
           },
           backgroundImage: {
-            'home-bg': "url('./assets/YIWImage2022.jpeg')",
+            'home-bg': "url('./assets/backdropSky.jpg')",
         },
           fontFamily: {
               dmsans: ['DM Sans', 'sans-serif'],
