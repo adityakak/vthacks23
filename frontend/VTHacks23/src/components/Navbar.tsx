@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { kebabCase } from "lodash";
 import { useState } from "react";
-import Logo from "../assets/logo.png";
+import Logo from "../assets/logoBlack.png";
 
 import {
     Bars3Icon,
@@ -34,7 +34,9 @@ function Navbar() {
         // div containing entire navbar (using flex for row view)
         <nav className="flex h-24 bg-gray-200 border-y-8 border-orange-400">
             {/* YIW + Logo (allocating 1/3 space for div, centered vertically) */}
-            <div className="ml-12 flex gap-3 items-center basis-1/5 text-3xl font-bold"></div>
+            <div className="ml-4 mb-2 flex gap-3 items-center text-3xl font-bold">
+                <img alt="logo" src={Logo} width={250} />
+            </div>
 
             {isAboveMediumScreens ? (
                 <div className="flex items-center basis-4/5 justify-end font-bold">
