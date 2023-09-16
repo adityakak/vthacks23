@@ -24,5 +24,5 @@ body,
     width: 100%;
     font-family: 'DM Sans', sans-serif; /*sets font to DM Sans but if not available then it will fall onto the default sans-serif */
     @apply text-blue-700; /* @apply sets the default text color to gray-500, which is in our tailwind.config.js file */
-    @apply bg-zinc-800;
+    @apply bg-zinc-700;
 }
