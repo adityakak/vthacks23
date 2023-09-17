@@ -132,11 +132,13 @@ class EducationAPI():
         return dataToReviews
     
 def dumpData(fileName, data):
-    with open(fileName, 'wb') as file:
+    dataPath = Path(os.path.join(os.getcwd(), f"pkldata/{fileName}"))
+    with open(dataPath, 'wb') as file:
         pickle.dump(data, file)
 
 def loadData(fileName):
-    with open(fileName, 'rb') as file:
+    dataPath = Path(os.path.join(os.getcwd(), f"pkldata/{fileName}"))
+    with open(dataPath, 'rb') as file:
         data = pickle.load(file)
     return data
 
@@ -219,8 +221,8 @@ def condenseData(data, settify):
 
 def getEducationData(address):
     eduAPI = EducationAPI(None)
-    # placeID = eduAPI.getPlaceFromAddress(address)
-    placeID = 'ChIJf1KNmBSzt4kRxpjfyRXLaKw'
+    placeID = eduAPI.getPlaceFromAddress(address)
+    # placeID = 'ChIJf1KNmBSzt4kRxpjfyRXLaKw'
 
 
     # schoolsToHome = loadData('schoolsToHome')
