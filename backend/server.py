@@ -20,6 +20,21 @@ def ratings():
         return response
     else:
         print(request.json)
+        full_address = request.json['full_address']
+        half_address = request.json['half_address']
+        educationData = getEducationData(full_address)
+        print(f"Education Data: {educationData}")
+        photoData = getPhotoData(half_address)
+        print(f"Photo Data: {photoData}")
+        environmentData = getEnvironmentData(full_address)
+        print(f"Environment Data: {environmentData}")
+
+        return jsonify({
+            "education": educationData,
+            "photos": photoData,
+            "environment": environmentData
+        })
+
         # Handle actual request
         # call educationAPI to get data points
         # call environmentAPI to get data points
@@ -53,35 +68,35 @@ if __name__ == '__main__':
     # half_address = "908 Ashburn St"
     # full_address = "908 Ashburn St, Herndon, VA 20170"
     # getHomesLink("908 Ashburn St")
-    #app.run(host = "0.0.0.0")
+    app.run(host = "0.0.0.0")
 
     # full_address = request.json['full_address']
     # half_address = request.json['half_address']
-    full_address = "908 Ashburn St, Herndon, VA 20170"
-    half_address = "908 Ashburn St"
-    educationData = getEducationData(full_address)
-    print(f"Education Data: {educationData}")
-    photoData = getPhotoData(half_address)
-    print(f"Photo Data: {photoData}")
-    environmentData = getEnvironmentData(full_address)
-    print(f"Environment Data: {environmentData}")
+    # full_address = "908 Ashburn St, Herndon, VA 20170"
+    # half_address = "908 Ashburn St"
+    # educationData = getEducationData(full_address)
+    # print(f"Education Data: {educationData}")
+    # photoData = getPhotoData(half_address)
+    # print(f"Photo Data: {photoData}")
+    # environmentData = getEnvironmentData(full_address)
+    # print(f"Environment Data: {environmentData}")
 
-    dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchoolsClean.csv"))
-    df = pd.read_csv(dataPath)
-    results = []
-    for index, row in df.iterrows():
-        print(f"In progress: {index}")
-        abbreviatedAddress = row['abbreviatedAddress']
-        city = row['address/city']
-        state = row['address/state']
-        zipcode = row['address/zipcode']
-        address = f"{abbreviatedAddress}, {city}, {state} {zipcode}"
-        eduData = getEducationData(address)
-        envData = getEnvironmentData(address)
-        totalScore = .5 * eduData[-1] + .5 * envData[-1]
-        results.append((totalScore, address))
-    results.sort(reverse=True)
-    dataPath = Path(os.path.join(os.getcwd(), "pkldata/sortedScores"))
-    with open(dataPath, 'wb') as file:
-        pickle.dump(results, file)
+    # dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchoolsClean.csv"))
+    # df = pd.read_csv(dataPath)
+    # results = []
+    # for index, row in df.iterrows():
+    #     print(f"In progress: {index}")
+    #     abbreviatedAddress = row['abbreviatedAddress']
+    #     city = row['address/city']
+    #     state = row['address/state']
+    #     zipcode = row['address/zipcode']
+    #     address = f"{abbreviatedAddress}, {city}, {state} {zipcode}"
+    #     eduData = getEducationData(address)
+    #     envData = getEnvironmentData(address)
+    #     totalScore = .5 * eduData[-1] + .5 * envData[-1]
+    #     results.append((totalScore, address))
+    # results.sort(reverse=True)
+    # dataPath = Path(os.path.join(os.getcwd(), "pkldata/sortedScores"))
+    # with open(dataPath, 'wb') as file:
+    #     pickle.dump(results, file)
 

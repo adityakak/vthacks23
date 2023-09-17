@@ -4,7 +4,7 @@ import sys
 import requests
 import json
 import pandas as pd
-import credentials
+# import credentials
 import googlemaps
 import pickle
 from collections import defaultdict
@@ -40,7 +40,7 @@ class Home():
 class EnvironmentApi:
     def __init__(self, home=None, url=None) -> None:
         self.home = home
-        self.api_key = credentials.api_key
+        self.api_key = getGoogleAuthKey()
         self.header = { 'Content-Type': 'application/json'}
         self.aqi_request_data_history = {
             "hours": 168,
@@ -53,7 +53,7 @@ class EnvironmentApi:
         }
         self.aqi_url_history = f'https://airquality.googleapis.com/v1/history:lookup?key={self.api_key}'
         self.solar_url = url
-        self.gmaps = googlemaps.Client(self.api_key)
+        self.gmaps = googlemaps.Client(getGoogleAuthKey())
 
     def setHome(self, home: Home):
         self.home = home
@@ -94,8 +94,16 @@ class EnvironmentApi:
             print(i['name']+", "+i['place_id'])
         self.home.setNumChargers(len(chargers['results']))
 
+def getGoogleAuthKey(self):
+        dataPath = Path(os.path.join(os.getcwd(), "environment/googleAuth.txt"))
+        with open(dataPath, 'r') as authFile:
+            authKey = authFile.readline()
+            authKey = authKey.strip()
+            return authKey
+
+
 def getEnvironmentData(address: str):
-    gmaps = googlemaps.Client(credentials.api_key)
+    gmaps = googlemaps.Client(getGoogleAuthKey())
     dataPath = Path(os.path.join(os.getcwd(), 'envData/envData'))
     with open(dataPath, 'rb') as file:
         data = pickle.load(file=file)
