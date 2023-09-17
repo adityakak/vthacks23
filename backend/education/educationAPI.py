@@ -222,7 +222,7 @@ def condenseData(data, settify):
 def getEducationData(address):
     eduAPI = EducationAPI(None)
     placeID = eduAPI.getPlaceFromAddress(address)
-    # placeID = 'ChIJf1KNmBSzt4kRxpjfyRXLaKw'
+    #placeID = 'ChIJf1KNmBSzt4kRxpjfyRXLaKw'
 
 
     # schoolsToHome = loadData('schoolsToHome')
