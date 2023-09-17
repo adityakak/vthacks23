@@ -94,7 +94,7 @@ class EnvironmentApi:
             print(i['name']+", "+i['place_id'])
         self.home.setNumChargers(len(chargers['results']))
 
-def getGoogleAuthKey(self):
+def getGoogleAuthKey():
         dataPath = Path(os.path.join(os.getcwd(), "environment/googleAuth.txt"))
         with open(dataPath, 'r') as authFile:
             authKey = authFile.readline()

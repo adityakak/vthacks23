@@ -8,10 +8,10 @@ type Props = {
 function Houses({ placeNumber, imageLink, address, homesLink }: Props) {
     return (
         <div className="relative w-[400px] h-[400px] bg-white text-orange-600 text-2xl flex justify-evenly items-center text-center flex-col rounded-2xl flex-wrap">
-            <div className="absolute top-0 left-0 ml-6 mt-6 w-16 h-20 rounded-full border-4 border-orange-600 flex items-center justify-center">
+            <div className="absolute top-0 left-0 ml-6 mt-6 w-12 h-16 rounded-full border-4 border-orange-600 flex items-center justify-center">
                 {placeNumber}
             </div>
-            <img alt="house" src={imageLink} width={250} />
+           <a href={homesLink}> <img alt="house" src={imageLink} width={250} /></a> 
 
             {address}
         </div>

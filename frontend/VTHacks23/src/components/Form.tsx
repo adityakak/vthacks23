@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { states } from "../shared/states";
+import { useNavigate } from "react-router";
 
 function Form() {
     const [address, setAddress] = useState<string>("");
@@ -12,6 +13,7 @@ function Form() {
         trigger,
         formState: { errors },
     } = useForm();
+    const navigate = useNavigate();
 
     async function handleSendHome(e: React.FormEvent) {
         e.preventDefault();
@@ -20,6 +22,17 @@ function Form() {
         if (isValid) {
             const fullAddress =
                 address + ", " + city + ", " + state + ", " + zip;
+            fetch('http://127.0.0.1:8080/ratings', {
+                method: 'POST', 
+                body: JSON.stringify({full_address: fullAddress, half_address: address}), 
+                headers: {
+                    'Content-Type': 'application/json',
+                },})
+                    .then(async res => await res.json())
+                    .then(data => {
+                        console.log(data);
+                        navigate('/results', {state: data})
+                    })
         }
     }
     return (

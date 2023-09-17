@@ -11,7 +11,7 @@ def getPhotoData(address):
     """Extracts photos from the given address"""
     dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchoolsClean.csv"))
     df = pd.read_csv(dataPath)
-    df = df[df['abbreviatedAddress'] == address]
+    df = df[df['abbreviatedAddress'].str.contains(address)]
     photoLink = df.iloc[0]['photos/0']
     return photoLink
 

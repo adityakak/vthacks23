@@ -4,17 +4,45 @@ import SecondSharedPie from "./SecondSharedPie";
 import ThirdSharedPie from "./ThirdSharedPie";
 import Footer from "../../components/Footer";
 import Houses from "../../components/Houses";
+import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
+
+// interface ResultProps {
+//     education: number[];
+//     environment: number[];
+//     photos: string;
+// }
 
 function Results() {
+    const location = useLocation();
+    const data = location.state;
+    const [homeData, setHomeData] = useState([])
+    useEffect(() => {
+        const homeD = []
+        for (let x = 0; x < 5; x++) {
+            const obj = {
+                address: data.address[x],
+                photos: data.photos[x],
+                homesLink: data.homeLinks[x],
+                index: x + 1
+            }
+
+            homeD.push(obj)
+        }
+
+        setHomeData(homeD)
+    }, [])
+    
+    console.log(data);
     return (
         <div>
             <Navbar />
-            <SharedPie title="Overall Rating" percent={70} color="#E6903F" />
+            <SharedPie title="Overall Rating" percent={Math.floor((data.education[3] * 0.5 + data.environment[3] * 0.5) * 100)} color="#E6903F" />
             <div className="md:flex justify-evenly">
                 <div className="relative mb-20">
                     <SecondSharedPie
-                        title="Environment Rating"
-                        percent={40}
+                        title="Education Rating"
+                        percent={Math.floor(data.education[3] * 100)}
                         color="	#008000"
                     />
                     <div className="absolute top-0 left-0 bg-white w-full h-full opacity-0 hover:opacity-100 transition-opacity duration-300 z-10">
@@ -22,19 +50,19 @@ function Results() {
                             <div>
                                 <ThirdSharedPie
                                     title="School Rating"
-                                    percent={40}
+                                    percent={Math.floor(data.education[1] * 100)}
                                     color="#008000"
                                 />
                             </div>
                             <div className="flex justify-evenly">
                                 <ThirdSharedPie
                                     title="Library Rating"
-                                    percent={40}
+                                    percent={Math.floor(data.education[0] * 100)}
                                     color="#008000"
                                 />
                                 <ThirdSharedPie
                                     title="Center Rating"
-                                    percent={40}
+                                    percent={Math.floor(data.education[2] * 100)}
                                     color="#008000"
                                 />
                             </div>
@@ -44,8 +72,8 @@ function Results() {
 
                 <div className="relative mb-20">
                     <SecondSharedPie
-                        title="Education Rating"
-                        percent={40}
+                        title="Environment Rating"
+                        percent={Math.floor(data.environment[3] * 100)}
                         color="#FFFF00"
                     />
                     <div className="absolute top-0 left-0 bg-white w-full h-full opacity-0 hover:opacity-100 transition-opacity duration-300 z-10">
@@ -53,19 +81,19 @@ function Results() {
                             <div>
                                 <ThirdSharedPie
                                     title="Air Quality"
-                                    percent={40}
+                                    percent={100 - Math.floor(data.environment[0] * 100)}
                                     color="#FFFF00"
                                 />
                             </div>
                             <div className="flex justify-evenly">
                                 <ThirdSharedPie
                                     title="Solar Rating"
-                                    percent={40}
+                                    percent={Math.floor(data.environment[1] * 100)}
                                     color="#FFFF00"
                                 />
                                 <ThirdSharedPie
                                     title="Charging Stations"
-                                    percent={40}
+                                    percent={Math.floor(data.environment[2] * 100)}
                                     color="#FFFF00"
                                 />
                             </div>
@@ -78,13 +106,17 @@ function Results() {
                 Check out these houses!
             </div>
 
-            <div className="flex justify-evenly mb-10">
-                <Houses
-                    placeNumber={1}
-                    imageLink=""
-                    address="4033 Royal Lytham Drive, Fairfax, VA, 22033"
-                    homesLink=""
+            <div className="flex flex-wrap gap-2 justify-evenly mb-10">
+            {homeData.map((house) => {
+                return <Houses
+                placeNumber={house.index}
+                imageLink={house.photos}
+                address={house.address}
+                homesLink={house.homesLink}
                 />
+            }
+            )}
+                
             </div>
 
             <Footer />

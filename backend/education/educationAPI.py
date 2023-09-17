@@ -5,7 +5,7 @@ from pathlib import Path
 import os
 from collections import defaultdict
 import pickle
-from pysentimiento import create_analyzer
+#from pysentimiento import create_analyzer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 class School():
@@ -41,8 +41,8 @@ class EducationAPI():
         self.home = home
         self.googleAuthKey = self.getGoogleAuthKey()
         self.gmaps = googlemaps.Client(self.googleAuthKey)
-        self.mongoAuthKey = self.getMongoAuthKey()
-        self.mongo = f'mongodb+srv://adityakak:{self.mongoAuthKey}@vthacksdata.lp1aqo8.mongodb.net/?retryWrites=true&w=majority'
+        #self.mongoAuthKey = self.getMongoAuthKey()
+        #self.mongo = f'mongodb+srv://adityakak:{self.mongoAuthKey}@vthacksdata.lp1aqo8.mongodb.net/?retryWrites=true&w=majority'
         self.sia = SentimentIntensityAnalyzer()
 
     def setHome(self, home):
