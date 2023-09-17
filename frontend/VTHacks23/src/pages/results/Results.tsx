@@ -102,11 +102,11 @@ function Results() {
                 </div>
             </div>
 
-            <div className="text-center text-white text-2xl my-24">
+            <div className="text-center text-white text-6xl my-24">
                 Check out these houses!
             </div>
 
-            <div className="flex flex-wrap gap-2 justify-evenly mb-10">
+            <div className="flex flex-wrap gap-8 justify-evenly mb-10">
             {homeData.map((house) => {
                 return <Houses
                 placeNumber={house.index}
