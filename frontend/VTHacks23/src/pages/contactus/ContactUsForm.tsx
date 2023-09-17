@@ -110,7 +110,7 @@ function ContactUsForm() {
                 {/* Make the messages area a textArea to make that section larger than the rest [takes in number of rows and cols instead of a type like for input] */}
                 <textarea
                     className={inputStyles}
-                    rows={4}
+                    rows={8}
                     cols={50}
                     placeholder="MESSAGE"
                     {...register("message", {

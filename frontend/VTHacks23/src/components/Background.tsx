@@ -10,7 +10,7 @@ function Background() {
                     <div className="absolute top-[2%] left-[1%] border-white border-4 h-[96%] w-[98%] z-[20] rounded-2xl" />
                     <div className="w-[85%] font-normal">
                         Prioritize Education and the Environment to find the
-                        best houses near you
+                        best houses near you!
                     </div>
                 </div>
             </div>
