@@ -68,6 +68,11 @@ class EducationAPI():
         placeID = reverse_geocode_result[0]['place_id']
         return placeID
     
+    def getPlaceFromAddress(self, address):
+        geocode_result = self.gmaps.geocode(address)
+        placeID = geocode_result[0]['place_id']
+        return placeID
+    
     def getReviewsFromPlace(self, placeID):
         reviews = self.gmaps.place(placeID, fields=['reviews', 'rating'], reviews_sort="newest")
 
@@ -109,7 +114,7 @@ class EducationAPI():
         dataToReviews = defaultdict(list)
         for dataName, dataPlaceID in dataToHome:
             print(f"Processing {dataName}")
-            reviews = eduAPI.getReviewsFromPlace(dataPlaceID)
+            reviews = self.getReviewsFromPlace(dataPlaceID)
             if reviews is None:
                 continue
             dataToReviews[(dataName, dataPlaceID)].append(reviews[0])
@@ -125,8 +130,225 @@ class EducationAPI():
             print(f"Data To Reviews Dict: {dataToReviews}")
             print(f"Finished {dataName}")
         return dataToReviews
+    
+def dumpData(fileName, data):
+    with open(fileName, 'wb') as file:
+        pickle.dump(data, file)
 
-if __name__ == "__main__":
+def loadData(fileName):
+    with open(fileName, 'rb') as file:
+        data = pickle.load(file)
+    return data
+
+def readData(fileName):
+    dataPath = Path(os.path.join(os.getcwd(), fileName))
+    df = pd.read_csv(dataPath)
+
+    schoolsToHome = defaultdict(list)
+    librariesToHome = defaultdict(list)
+    childCareToHome = defaultdict(list)
+
+    eduAPI = EducationAPI(None)
+
+    for index, row in df.iterrows():
+        h = Home(row)
+        eduAPI.setHome(h)
+        print(f"Processing {h.street} at lat {h.latitude} and long {h.longitude}")
+        placeID = eduAPI.getPlaceFromLatLong()
+        for school in eduAPI.findSchoolsNearLocationWithName():
+            schoolsToHome[school].append(placeID)
+        for library in eduAPI.findLibrariesNearLocation():
+            librariesToHome[library].append(placeID)
+        for care in eduAPI.findChildCareNearLocation():
+            childCareToHome[care].append(placeID)
+        print(f"Finished {index} of {len(df)}")
+        print()
+    dumpData('schoolsToHome', schoolsToHome)
+    dumpData('librariesToHome', librariesToHome)
+    dumpData('childCareToHome', childCareToHome)
+    # with open('schoolsToHome', 'wb') as file:
+    #     pickle.dump(schoolsToHome, file)
+    # with open('librariesToHome', 'wb') as file:
+    #     pickle.dump(librariesToHome, file)
+    # with open('childCareToHome', 'wb') as file:
+    #     pickle.dump(childCareToHome, file)
+
+def scoreData():
+    eduAPI = EducationAPI(None)
+    schoolsToHome = None
+    librariesToHome = None
+    childCareToHome = None
+    # with open('childCareToHome', 'rb') as file:
+    #     childCareToHome = pickle.load(file)
+    # with open('librariesToHome', 'rb') as file:
+    #     librariesToHome = pickle.load(file)
+    # with open('schoolsToHome', 'rb') as file:
+    #     schoolsToHome = pickle.load(file)
+    schoolsToHome = loadData('schoolsToHome')
+    librariesToHome = loadData('librariesToHome')
+    childCareToHome = loadData('childCareToHome')
+
+    # Rating, Sentiment Score
+    librariesToReviews = eduAPI.findSentimentRatingScore(librariesToHome)
+    schoolsToReviews = eduAPI.findSentimentRatingScore(schoolsToHome)
+    childCareToReviews = eduAPI.findSentimentRatingScore(childCareToHome)
+    # with open('schoolsToReviews', 'wb') as file:
+    #     pickle.dump(schoolsToReviews, file)
+    # with open('librariesToReviews', 'wb') as file:
+    #     pickle.dump(librariesToReviews, file)
+    # with open('childCareToReviews', 'wb') as file:
+    #     pickle.dump(childCareToReviews, file)
+    # print()
+    schoolsToReviews = dumpData('schoolsToReviews', schoolsToReviews)
+    librariesToReviews = dumpData('librariesToReviews', librariesToReviews)
+    childCareToReviews = dumpData('childCareToReviews', childCareToReviews)
+
+def condenseData(data, settify):
+    if settify:
+        condensedData = defaultdict(set)
+    else:
+        condensedData = defaultdict(list)
+    for key, value in data.items():
+        name, placeID = key[0], key[1]
+        for val in value:
+            if settify:
+                condensedData[placeID].add(val)
+            else:
+                condensedData[placeID].append(val)
+    return condensedData
+
+def getEducationData(address):
+    eduAPI = EducationAPI(None)
+    # placeID = eduAPI.getPlaceFromAddress(address)
+    placeID = 'ChIJf1KNmBSzt4kRxpjfyRXLaKw'
+
+
+    # schoolsToHome = loadData('schoolsToHome')
+    # librariesToHome = loadData('librariesToHome')
+    # childCareToHome = loadData('childCareToHome')  
+
+    # schoolsToReviews = loadData('schoolsToReviews')
+    # librariesToReviews = loadData('librariesToReviews')
+    # childCareToReviews = loadData('childCareToReviews')  
+
+    # schoolsToHomeCondensed = condenseData(schoolsToHome, True)
+    # librariesToHomeCondensed = condenseData(librariesToHome, True)
+    # childCareToHomeCondensed = condenseData(childCareToHome, True)
+
+    # schoolsToReviewsCondensed = condenseData(schoolsToReviews, False)
+    # librariesToReviewsCondensed = condenseData(librariesToReviews, False)
+    # childCareToReviewsCondensed = condenseData(childCareToReviews, False)
+
+    # print()
+
+    # dumpData('schoolsToHomeCondensed', schoolsToHomeCondensed)
+    # dumpData('librariesToHomeCondensed', librariesToHomeCondensed)
+    # dumpData('childCareToHomeCondensed', childCareToHomeCondensed)
+
+    # dumpData('schoolsToReviewsCondensed', schoolsToReviewsCondensed)
+    # dumpData('librariesToReviewsCondensed', librariesToReviewsCondensed)
+    # dumpData('childCareToReviewsCondensed', childCareToReviewsCondensed)
+
+    schoolsToHomeCondensed = loadData('schoolsToHomeCondensed')
+    librariesToHomeCondensed = loadData('librariesToHomeCondensed')
+    childCareToHomeCondensed = loadData('childCareToHomeCondensed')
+
+    schoolsToReviewsCondensed = loadData('schoolsToReviewsCondensed')
+    librariesToReviewsCondensed = loadData('librariesToReviewsCondensed')
+    childCareToReviewsCondensed = loadData('childCareToReviewsCondensed')
+
+    # toRemove = []
+    # for key in schoolsToHomeCondensed:
+    #     if key not in schoolsToReviewsCondensed:
+    #         toRemove.append(key)
+    # for key in toRemove:
+    #     del schoolsToHomeCondensed[key]
+
+    # toRemove = []
+    # for key in librariesToHomeCondensed:
+    #     if key not in librariesToReviewsCondensed:
+    #         toRemove.append(key)
+    # for key in toRemove:
+    #     del librariesToHomeCondensed[key]
+
+    # toRemove = []
+    # for key in childCareToHomeCondensed:
+    #     if key not in childCareToReviewsCondensed:
+    #         toRemove.append(key)
+    # for key in toRemove:
+    #     del childCareToHomeCondensed[key]
+    
+    # print()
+
+    childCare = []
+    libraries = []
+    schools = []
+
+    for care, houses in childCareToHomeCondensed.items():
+        if placeID in houses:
+            childCare.append(care)
+    for library, houses in librariesToHomeCondensed.items():
+        if placeID in houses:
+            libraries.append(library)
+    for school, houses in schoolsToHomeCondensed.items():
+        if placeID in houses:
+            schools.append(school)
+    
+    bestChildCareScoreOverall = bestChildCareOverall = 0
+    bestLibraryScoreOverall = bestLibraryOverall = 0
+    bestSchoolScoreOverall = bestSchoolOverall = 0
+
+    GOOGLE_SCORE = 0
+    SENTIMENT_SCORE = 1
+    for care, ratings in childCareToReviewsCondensed.items():
+        score = 0.75 * ratings[GOOGLE_SCORE] + 0.25 * ratings[SENTIMENT_SCORE]
+        if score > bestChildCareScoreOverall:
+            bestChildCareScoreOverall = score
+            bestChildCareOverall = care
+
+    for library, ratings in librariesToReviewsCondensed.items():
+        score = 0.75 * ratings[GOOGLE_SCORE] + 0.25 * ratings[SENTIMENT_SCORE]
+        if score > bestLibraryScoreOverall:
+            bestLibraryScoreOverall = score
+            bestLibraryOverall = library
+
+    for school, ratings in schoolsToReviewsCondensed.items():
+        score = 0.75 * ratings[GOOGLE_SCORE] + 0.25 * ratings[SENTIMENT_SCORE]
+        if score > bestSchoolScoreOverall:
+            bestSchoolScoreOverall = score
+            bestSchoolOverall = school
+
+    bestChildCareScoreHouse = 0
+    bestLibraryScoreHouse = 0
+    bestSchoolScoreHouse = 0
+
+    for care in childCare:
+        ratings = childCareToReviewsCondensed[care]
+        score = 0.75 * ratings[GOOGLE_SCORE] + 0.25 * ratings[SENTIMENT_SCORE]
+        if score > bestChildCareScoreHouse:
+            bestChildCareScoreHouse = score
+    for library in libraries:
+        ratings = librariesToReviewsCondensed[library]
+        score = 0.75 * ratings[GOOGLE_SCORE] + 0.25 * ratings[SENTIMENT_SCORE]
+        if score > bestLibraryScoreHouse:
+            bestLibraryScoreHouse = score
+    for school in schools:
+        ratings = schoolsToReviewsCondensed[school]
+        score = 0.75 * ratings[GOOGLE_SCORE] + 0.25 * ratings[SENTIMENT_SCORE]
+        if score > bestSchoolScoreHouse:
+            bestSchoolScoreHouse = score
+    
+    libraryScore = bestLibraryScoreHouse / bestLibraryScoreOverall
+    schoolScore = bestSchoolScoreHouse / bestSchoolScoreOverall
+    childCareScore = bestChildCareScoreHouse / bestChildCareScoreOverall
+    educationScore = 0.35 * libraryScore + 0.5 * schoolScore + 0.15 * childCareScore
+    output = [libraryScore, schoolScore, childCareScore, educationScore] # houseLibrary / maxLibrary, houseSchool / maxSchool, houseChildCare / maxChildCare, *
+    return output
+    
+
+
+
+
     # dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchoolsClean.csv"))
     # df = pd.read_csv(dataPath)
 
@@ -157,29 +379,29 @@ if __name__ == "__main__":
     # with open('childCareToHome', 'wb') as file:
     #     pickle.dump(childCareToHome, file)
 
-    print()
-    eduAPI = EducationAPI(None)
-    schoolsToHome = None
-    librariesToHome = None
-    childCareToHome = None
-    with open('childCareToHome', 'rb') as file:
-        childCareToHome = pickle.load(file)
-    # with open('librariesToHome', 'rb') as file:
-    #     librariesToHome = pickle.load(file)
-    with open('schoolsToHome', 'rb') as file:
-        schoolsToHome = pickle.load(file)
+    # print()
+    # eduAPI = EducationAPI(None)
+    # schoolsToHome = None
+    # librariesToHome = None
+    # childCareToHome = None
+    # with open('childCareToHome', 'rb') as file:
+    #     childCareToHome = pickle.load(file)
+    # # with open('librariesToHome', 'rb') as file:
+    # #     librariesToHome = pickle.load(file)
+    # with open('schoolsToHome', 'rb') as file:
+    #     schoolsToHome = pickle.load(file)
 
-    # Rating, Sentiment Score
-    #librariesToReviews = eduAPI.findSentimentRatingScore(librariesToHome)
-    schoolsToReviews = eduAPI.findSentimentRatingScore(schoolsToHome)
-    childCareToReviews = eduAPI.findSentimentRatingScore(childCareToHome)
-    with open('schoolsToReviews', 'wb') as file:
-        pickle.dump(schoolsToReviews, file)
-    # with open('librariesToReviews', 'wb') as file:
-    #     pickle.dump(librariesToReviews, file)
-    with open('childCareToReviews', 'wb') as file:
-        pickle.dump(childCareToReviews, file)
-    print()
+    # # Rating, Sentiment Score
+    # #librariesToReviews = eduAPI.findSentimentRatingScore(librariesToHome)
+    # schoolsToReviews = eduAPI.findSentimentRatingScore(schoolsToHome)
+    # childCareToReviews = eduAPI.findSentimentRatingScore(childCareToHome)
+    # with open('schoolsToReviews', 'wb') as file:
+    #     pickle.dump(schoolsToReviews, file)
+    # # with open('librariesToReviews', 'wb') as file:
+    # #     pickle.dump(librariesToReviews, file)
+    # with open('childCareToReviews', 'wb') as file:
+    #     pickle.dump(childCareToReviews, file)
+    # print()
 
     # analyzer = create_analyzer(task="sentiment", lang="en")
     
@@ -198,7 +420,15 @@ if __name__ == "__main__":
     #     dataToReviews[(libraryName, libraryPlaceID)].append(sum(totalSentimentScore) / len(totalSentimentScore))
     #     print(f"Finished {libraryName}")
     #     print()
+    # if not os.path.exists('schoolsToHome') or not os.path.exists('librariesToHome') or not os.path.exists('childCareToHome'):
+    #     readData("houses/houseData/novaHousesSchoolsClean.csv")
+    # if not os.path.exists('schoolsToReviews') or not os.path.exists('librariesToReviews') or not os.path.exists('childCareToReviews'):
+    #     scoreData()
     
+# if __name__ == "__main__":
+#     # readData("houses/houseData/novaHousesSchoolsClean.csv")
+#     # scoreData()
+#     getEducationData("4003 Whispering Ln, Annandale, VA 22003, USA")
     
 
     

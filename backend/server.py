@@ -13,4 +13,7 @@ def ratings():
         return response
     else:
         # Handle actual request
+        # call educationAPI to get data points
+        # call environmentAPI to get data points
+        # create method here to combine data points
         return jsonify({'status': 'success'})
