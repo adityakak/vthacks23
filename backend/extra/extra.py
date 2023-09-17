@@ -29,3 +29,13 @@ def getHomesLink(address):
     currentURL = driver.current_url
     return currentURL
 
+def scoreAllHouses():
+    dataPath = Path(os.path.join(os.getcwd(), "houses/houseData/novaHousesSchoolsClean.csv"))
+    df = pd.read_csv(dataPath)
+    for index, row in df.iterrows():
+        address = row['abbreviatedAddress']
+        photoLink = getPhotoData(address)
+        print(f"Photo Link: {photoLink}")
+        homesLink = getHomesLink(address)
+        print(f"Homes Link: {homesLink}")
+        break
