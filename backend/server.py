@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from education.educationAPI import getEducationData
-from extra.extraDataParser import getPhotoData
+from extra.extra import getPhotoData, getHomesLink
 
 app = Flask(__name__)
 CORS(app)
@@ -23,12 +23,13 @@ def ratings():
 
 
 if __name__ == '__main__':
-    half_address = "908 Ashburn St"
-    full_address = "908 Ashburn St, Herndon, VA 20170"
-    educationData = getEducationData(full_address)
-    photoData = getPhotoData(half_address)
-    print(f"Education Data: {educationData}")
-    print(f"Photo Data: {photoData}")
+    # half_address = "908 Ashburn St"
+    # full_address = "908 Ashburn St, Herndon, VA 20170"
+    # educationData = getEducationData(full_address)
+    # photoData = getPhotoData(half_address)
+    # print(f"Education Data: {educationData}")
+    # print(f"Photo Data: {photoData}")
+    getHomesLink("908 Ashburn St")
     #app.run(host = "0.0.0.0")
 
 # 
