@@ -1,5 +1,6 @@
 import Navbar from "../../components/Navbar";
 import Overall from "./overallPie";
+import Env from "./envPie"
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 const chartStyles = {
@@ -41,6 +42,34 @@ function Results() {
                         </div>
                     </div>
                 )}
+            </div>
+            <div id ="envAndEduContainer">
+                <div id = "envDiv">
+                {isAboveMediumScreens && (
+                    <div className="w-[300px] mx-auto">
+                        <div className="mt-10 relative group text-center mb-8">
+                            <span className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">
+                              Your Environmental Footprint Rating
+                            </span>
+                        </div>
+                        <div className="">
+                            <Env />
+                        </div>
+                    </div>
+                )}
+                {!isAboveMediumScreens && (
+                    <div className="w-[200px] mx-auto">
+                        <div className="mt-10 relative group text-center mb-8">
+                            <span className="text-white text-4xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">
+                                Your Environmental Footprint Rating
+                            </span>
+                        </div>
+                        <div className="">
+                            <Env />
+                        </div>
+                    </div>
+                )}
+                </div>
             </div>
         </div>
     );
