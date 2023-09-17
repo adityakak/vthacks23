@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { states } from "../shared/states";
 
 function Form() {
-    const [address, setAddress] = useState<string>();
-    const [city, setCity] = useState<string>();
-    const [state, setState] = useState<string>();
-    const [zip, setZip] = useState<string>();
+    const [address, setAddress] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [state, setState] = useState<string>("");
+    const [zip, setZip] = useState<string>("");
     const {
         register,
         trigger,
@@ -16,6 +16,11 @@ function Form() {
     async function handleSendHome(e: React.FormEvent) {
         e.preventDefault();
         const isValid = await trigger();
+
+        if (isValid) {
+            const fullAddress =
+                address + ", " + city + ", " + state + ", " + zip;
+        }
     }
     return (
         <>
