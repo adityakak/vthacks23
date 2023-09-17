@@ -21,8 +21,11 @@ function SharedPie({ title, percent, color }: Props) {
                             {title}
                         </span>
                     </div>
-                    <div className="">
+                    <div className="relative">
                         <OverallPie percent={percent} color={color} />
+                        <div className="absolute top-0 left-0 text-white w-full h-full text-8xl z-10 flex justify-center items-center">
+                            {percent}
+                        </div>
                     </div>
                 </div>
             )}
@@ -33,8 +36,11 @@ function SharedPie({ title, percent, color }: Props) {
                             {title}
                         </span>
                     </div>
-                    <div className="">
+                    <div className="relative">
                         <OverallPie percent={percent} color={color} />
+                        <div className="absolute top-0 left-0 text-white text-6xl w-full h-full z-10 flex justify-center items-center">
+                            {percent}
+                        </div>
                     </div>
                 </div>
             )}

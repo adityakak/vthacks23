@@ -3,6 +3,7 @@ import SharedPie from "./SharedPie";
 import SecondSharedPie from "./SecondSharedPie";
 import ThirdSharedPie from "./ThirdSharedPie";
 import Footer from "../../components/Footer";
+import Houses from "../../components/Houses";
 
 function Results() {
     return (
@@ -16,7 +17,7 @@ function Results() {
                         percent={40}
                         color="	#008000"
                     />
-                    <div className="absolute top-0 left-0 bg-white w-full h-full opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-0 left-0 bg-white w-full h-full opacity-0 hover:opacity-100 transition-opacity duration-300 z-10">
                         <div>
                             <div>
                                 <ThirdSharedPie
@@ -47,7 +48,7 @@ function Results() {
                         percent={40}
                         color="#FFFF00"
                     />
-                    <div className="absolute top-0 left-0 bg-white w-full h-full opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-0 left-0 bg-white w-full h-full opacity-0 hover:opacity-100 transition-opacity duration-300 z-10">
                         <div>
                             <div>
                                 <ThirdSharedPie
@@ -75,6 +76,15 @@ function Results() {
 
             <div className="text-center text-white text-2xl my-24">
                 Check out these houses!
+            </div>
+
+            <div className="flex justify-evenly mb-10">
+                <Houses
+                    placeNumber={1}
+                    imageLink=""
+                    address="4033 Royal Lytham Drive, Fairfax, VA, 22033"
+                    homesLink=""
+                />
             </div>
 
             <Footer />

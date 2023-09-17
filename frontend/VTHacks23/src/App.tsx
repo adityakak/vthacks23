@@ -2,19 +2,20 @@ import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Results from "./pages/results/Results";
+import ContactUs from "./pages/contactus/ContactUs";
 
 function App() {
-
-  return (
-      <BrowserRouter>
-        <div>
-          <Routes>
-            <Route path = "/"  element = {<Home />}/>
-            <Route path = "/results" element = {<Results />}/>
-          </Routes>
-        </div>
-      </BrowserRouter>
-  )
+    return (
+        <BrowserRouter>
+            <div>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/results" element={<Results />} />
+                    <Route path="/contact-us" element={<ContactUs />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 /* Description:
@@ -25,4 +26,4 @@ function App() {
 -) Click the listings to view them on Homes.com
 
 */
-export default App
+export default App;

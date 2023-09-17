@@ -20,8 +20,9 @@ function OverallPie({ percent, color }: Props) {
     };
 
     return (
-        <div>
+        <div className="relative">
             <Doughnut
+                className="relative"
                 data={data}
                 options={{
                     plugins: {
@@ -30,7 +31,7 @@ function OverallPie({ percent, color }: Props) {
                         },
                     },
                 }}
-            />
+            ></Doughnut>
         </div>
     );
 }
