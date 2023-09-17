@@ -1,20 +1,45 @@
 import { FiInstagram } from "react-icons/fi";
 import {
+    FaReact,
     FaFacebookSquare,
     FaTwitter,
     FaYoutube,
     FaLinkedinIn,
 } from "react-icons/fa";
+import {
+    BiLogoTailwindCss,
+    BiLogoTypescript,
+    BiLogoPython,
+} from "react-icons/bi";
 
 function Footer() {
     return (
         <div className="md:flex text-white bg-orange-600 text-center md:text-left">
             <div className="basis-1/3">
                 <div className="px-32 py-12 flex flex-col">
-                    <span className="text-2xl text-white">Powered by ...</span>
+                    <span className="text-2xl text-white mb-2">
+                        Powered by ...
+                    </span>
+                    <div className="flex gap-2 justify-center md:justify-start">
+                        <a href="https://react.dev/" target="_blank">
+                            <FaReact className="h-6 w-6" />
+                        </a>
+                        <a href="https://v2.tailwindcss.com/" target="_blank">
+                            <BiLogoTailwindCss className="h-6 w-6" />
+                        </a>
+                        <a
+                            href="https://www.typescriptlang.org/docs/"
+                            target="_blank"
+                        >
+                            <BiLogoTypescript className="h-6 w-6" />
+                        </a>
+                        <a href="https://www.python.org/">
+                            <BiLogoPython className="h-6 w-6" />
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div className="basis-1/3 bg-wise-blue">
+            <div className="basis-1/3 bg-orange-600">
                 <div className="px-32 py-12 gap-4 flex flex-col">
                     <span className="text 3xl text-white">
                         {" "}
