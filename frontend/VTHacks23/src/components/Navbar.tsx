@@ -28,14 +28,17 @@ function Navbar() {
 
     // styling for different components
     const linkStyles =
-        "hover:text-red-200 transition duration-300 p-4 text-orange-400 "; // navbar menu items when hovered
+        "hover:text-orange-700 transition duration-300 p-4 text-orange-400 "; // navbar menu items when hovered
 
     return (
         // div containing entire navbar (using flex for row view)
-        <nav className="flex h-24 bg-gray-200 border-y-8 border-orange-400">
+        <nav className="flex h-24 bg-white border-y-8 border-orange-400">
             {/* YIW + Logo (allocating 1/3 space for div, centered vertically) */}
             <div className="ml-4 mb-2 flex gap-3 items-center text-3xl font-bold">
-                <img alt="logo" src={Logo} width={250} />
+                <Link to="/">
+                    {" "}
+                    <img alt="logo" src={Logo} width={250} />{" "}
+                </Link>
             </div>
 
             {isAboveMediumScreens ? (
@@ -47,7 +50,7 @@ function Navbar() {
                             <Link
                                 className={`${linkStyles} ${
                                     isHeadingActive("About")
-                                        ? "text-red-300"
+                                        ? "text-orange-800"
                                         : ""
                                 } `}
                                 to="/about"
@@ -56,6 +59,13 @@ function Navbar() {
                             </Link>
                         </li>
                     </ul>
+                    {/* directs user to the Contact Us section on the FAQ page of Resources */}
+                    <Link
+                        className="p-3 rounded-md bg-orange-400 text-white hover:bg-orange-600 transition duration-300"
+                        to="/contact-us"
+                    >
+                        Contact Us
+                    </Link>
                 </div>
             ) : (
                 !isMenuToggled && (
@@ -96,10 +106,21 @@ function Navbar() {
                         <Link
                             className={`${
                                 isHeadingActive("About") ? " text-white" : ""
-                            } hover:text-red-300 transition duration-300`}
+                            } hover:text-zinc-300 transition duration-300`}
                             to="/about"
                         >
                             About
+                        </Link>
+
+                        <Link
+                            className={`${
+                                isHeadingActive("Contact Us")
+                                    ? " text-white"
+                                    : ""
+                            } hover:text-zinc-300 transition duration-300`}
+                            to="/contact-us"
+                        >
+                            Contact Us
                         </Link>
                     </div>
                 </div>

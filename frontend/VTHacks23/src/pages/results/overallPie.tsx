@@ -1,22 +1,28 @@
-import React from "react";
 import { Chart, CategoryScale, ArcElement } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-Chart.register(CategoryScale, ArcElement);
-const overallPie: React.FC = () => {
+
+type Props = {
+    percent: number;
+    color: string;
+};
+
+function OverallPie({ percent, color }: Props) {
+    Chart.register(CategoryScale, ArcElement);
+
     const data = {
-        labels: ["A", "B", "C"],
         datasets: [
             {
-                data: [30, 40, 10, 20],
-                backgroundColor: ["#FF5733", "#33FF57", "#5733FF", "#000000"],
-                borderWidth: [0, 0, 0, 0],
+                data: [percent, 100 - percent],
+                backgroundColor: [color, "#000000"],
+                borderWidth: [0, 0],
             },
         ],
     };
 
     return (
-        <div>
+        <div className="relative">
             <Doughnut
+                className="relative"
                 data={data}
                 options={{
                     plugins: {
@@ -25,9 +31,9 @@ const overallPie: React.FC = () => {
                         },
                     },
                 }}
-            />
+            ></Doughnut>
         </div>
     );
-};
+}
 
-export default overallPie;
+export default OverallPie;

@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { states } from "../shared/states";
 
 function Form() {
-    const [address, setAddress] = useState<string>();
-    const [city, setCity] = useState<string>();
-    const [state, setState] = useState<string>();
-    const [zip, setZip] = useState<string>();
+    const [address, setAddress] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [state, setState] = useState<string>("");
+    const [zip, setZip] = useState<string>("");
     const {
         register,
         trigger,
@@ -16,6 +16,11 @@ function Form() {
     async function handleSendHome(e: React.FormEvent) {
         e.preventDefault();
         const isValid = await trigger();
+
+        if (isValid) {
+            const fullAddress =
+                address + ", " + city + ", " + state + ", " + zip;
+        }
     }
     return (
         <>
@@ -34,7 +39,7 @@ function Form() {
                 onSubmit={handleSendHome}
             >
                 <input
-                    className="mb-2 rounded-lg bg-blue-400 px-5 py-3 placeholder-white text-white mx-auto w-[800px]"
+                    className="mb-2 rounded-lg bg-white px-5 py-3 placeholder-orange-600 text-orange-600 mx-auto w-[800px]"
                     value={address}
                     type="text"
                     placeholder="Address Line 1"
@@ -58,7 +63,7 @@ function Form() {
                 <div className="md:grid grid-cols-3 w-[800px] gap-2">
                     <div>
                         <input
-                            className="mb-2 w-full rounded-lg bg-blue-400 px-5 py-3 placeholder-white text-white mx-auto"
+                            className="mb-2 w-full rounded-lg bg-orange-500 px-5 py-3 placeholder-white text-white mx-auto"
                             value={city}
                             type="text"
                             placeholder="City"
@@ -83,7 +88,7 @@ function Form() {
                     </div>
                     <div>
                         <select
-                            className="mb-2 w-full rounded-lg bg-blue-400 px-5 py-3 placeholder-white text-white mx-auto border-r-8 border-transparent"
+                            className="mb-2 w-full rounded-lg bg-orange-500  px-5 py-3 placeholder-white text-white mx-auto border-r-8 border-transparent"
                             value={state}
                             placeholder="State"
                             {...register("state", {
@@ -114,7 +119,7 @@ function Form() {
 
                     <div>
                         <input
-                            className="mb-2 w-full rounded-lg bg-blue-400 px-5 py-3 placeholder-white text-white mx-auto"
+                            className="mb-2 w-full rounded-lg bg-orange-500  px-5 py-3 placeholder-white text-white mx-auto"
                             value={zip}
                             type="text"
                             placeholder="Zip Code"
@@ -141,7 +146,7 @@ function Form() {
 
                 <button
                     type="submit"
-                    className="md:w-64 sm:w-full xs:w-full mt-20 bg-white hover:text-white border-black border-2 p-3 rounded-md hover:bg-blue-600 transition-all duration-500"
+                    className="md:w-64 sm:w-full xs:w-full mt-20 bg-white hover:text-black border-orange-600 border-2 p-3 rounded-md hover:bg-orange-200 transition-all duration-500"
                 >
                     Submit
                 </button>
