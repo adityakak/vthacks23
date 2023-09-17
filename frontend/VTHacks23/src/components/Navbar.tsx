@@ -28,7 +28,7 @@ function Navbar() {
 
     // styling for different components
     const linkStyles =
-        "hover:text-red-200 transition duration-300 p-4 text-orange-400 "; // navbar menu items when hovered
+        "hover:text-orange-700 transition duration-300 p-4 text-orange-400 "; // navbar menu items when hovered
 
     return (
         // div containing entire navbar (using flex for row view)
@@ -50,7 +50,7 @@ function Navbar() {
                             <Link
                                 className={`${linkStyles} ${
                                     isHeadingActive("About")
-                                        ? "text-red-300"
+                                        ? "text-orange-800"
                                         : ""
                                 } `}
                                 to="/about"
@@ -59,6 +59,13 @@ function Navbar() {
                             </Link>
                         </li>
                     </ul>
+                    {/* directs user to the Contact Us section on the FAQ page of Resources */}
+                    <Link
+                        className="p-3 rounded-md bg-orange-400 text-white hover:bg-orange-600 transition duration-300"
+                        to="/contact-us"
+                    >
+                        Contact Us
+                    </Link>
                 </div>
             ) : (
                 !isMenuToggled && (
@@ -99,10 +106,21 @@ function Navbar() {
                         <Link
                             className={`${
                                 isHeadingActive("About") ? " text-white" : ""
-                            } hover:text-red-300 transition duration-300`}
+                            } hover:text-zinc-300 transition duration-300`}
                             to="/about"
                         >
                             About
+                        </Link>
+
+                        <Link
+                            className={`${
+                                isHeadingActive("Contact Us")
+                                    ? " text-white"
+                                    : ""
+                            } hover:text-zinc-300 transition duration-300`}
+                            to="/contact-us"
+                        >
+                            Contact Us
                         </Link>
                     </div>
                 </div>

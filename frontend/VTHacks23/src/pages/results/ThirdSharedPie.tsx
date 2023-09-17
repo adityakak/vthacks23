@@ -17,24 +17,30 @@ function ThirdSharedPie({ title, percent, color }: Props) {
             {isAboveMediumScreens && (
                 <div className="mx-auto w-[100px] pb-10">
                     <div className="mt-10 relative group text-center mb-8">
-                        <span className="text-black text-2xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">
+                        <span className="text-black text-2xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic my-10">
                             {title}
                         </span>
                     </div>
-                    <div className="">
+                    <div className="relative">
                         <OverallPie percent={percent} color={color} />
+                        <div className="absolute top-0 left-0 text-black text-xl w-full h-full z-10 flex justify-center items-center">
+                            {percent}
+                        </div>
                     </div>
                 </div>
             )}
             {!isAboveMediumScreens && (
                 <div className="mx-auto w-[100px] pb-10">
                     <div className="mt-10 relative group text-center">
-                        <span className="text-black text-2xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic mt-10">
+                        <span className="text-black text-2xl bg-left-bottom bg-gradient-to-r from-orange-400 to-orange-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out italic my-10">
                             {title}
                         </span>
                     </div>
-                    <div className="">
+                    <div className="relative">
                         <OverallPie percent={percent} color={color} />
+                        <div className="absolute top-0 left-0 text-black text-xl w-full h-full z-10 flex justify-center items-center">
+                            {percent}
+                        </div>
                     </div>
                 </div>
             )}
